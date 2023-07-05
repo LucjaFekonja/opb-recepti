@@ -4,7 +4,6 @@ Aplikacija za pregledovanje in ustvarjanjanje receptov. Daje možnost prebiranja
 
 ## Spletni zagon
 * [![bottle.py](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/LaraNahtigal/opb-recepti/main?urlpath=proxy/8080/) 
-* https://hub.ovh2.mybinder.org/user/laranahtigal-opb-recepti-7db7ll0e/proxy/8080?token=FZSm7TQ4QlGknEtGbpvzMw
 
 ## ER diagram
 ![ER diagram](diagram/opb-recepti.png)
