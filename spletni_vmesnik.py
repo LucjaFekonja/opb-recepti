@@ -52,7 +52,7 @@ def static(filename):
 
 ####################################### Začetna stran pred prijavo #######################################
 
-@bottle.get('/')
+@get('/')
 def vsi_recepti():
     """
     Začetna stran vseh receptov, do katere lahko uporabnik dostopa neprijavljen.
@@ -63,7 +63,7 @@ def vsi_recepti():
                                             oznake=oznake,
                                             recepti=recepti)
 
-@bottle.get('/<param>/uredi')
+@get('/<param>/uredi')
 def uredi(param: str):
     """
     Začetna stran, le da so recepti urejeni po določenem stolpcu.
@@ -77,7 +77,7 @@ def uredi(param: str):
 
 ########################################### PRIJAVA IN ODJAVA ########################################### 
 
-@bottle.get('/prijava')
+@get('/prijava')
 def prijava_get():
     return template('prijava.tpl', napaka=None)
 
@@ -105,7 +105,7 @@ def prijava():
         return template("prijava.tpl", napaka="Neuspešna prijava. Napačno geslo ali uporabniško ime.")
     
 
-@bottle.get('/registracija')
+@get('/registracija')
 def registracija_get():
     return template('registracija.tpl', napaka=None)
 
@@ -144,7 +144,7 @@ def odjava():
 
 ########################################## VSI RECEPTI ########################################## 
 
-@bottle.get('/recepti')
+@get('/recepti')
 @cookie_required
 def vsi_recepti_prijava():
     """
@@ -158,7 +158,7 @@ def vsi_recepti_prijava():
                                                     recepti=recepti,
                                                     id_uporabnika=id_uporabnika)
 
-@bottle.get('/<param>/uredi_vsi')
+@get('/<param>/uredi_vsi')
 @cookie_required
 def uredi_vsi(param: str):
     """
@@ -175,7 +175,7 @@ def uredi_vsi(param: str):
 
 ##################################### RECEPTI PRIJAVLJENEGA UPORABNIKA #####################################
 
-@bottle.get('/moji_recepti')
+@get('/moji_recepti')
 @cookie_required
 def moji_recepti():
     """
@@ -190,7 +190,7 @@ def moji_recepti():
                                                     recepti=uporabnikovi_recepti,
                                                     id_uporabnika=id_uporabnika)
 
-@bottle.get('/<param>/uredi_moji')
+@get('/<param>/uredi_moji')
 @cookie_required
 def uredi_moji(param: str):
     """
@@ -208,7 +208,7 @@ def uredi_moji(param: str):
 
 ###################################### RECEPTI GLEDE NA OZNAKO ######################################
 
-@bottle.get('/recepti-kategorije/<kategorija>')
+@get('/recepti-kategorije/<kategorija>')
 def doloceni_recepti_kat(kategorija):
     """
     Vsi recepti izbrane kategorije.
@@ -223,7 +223,7 @@ def doloceni_recepti_kat(kategorija):
                                                                     recepti=recepti_izbrane_kategorije)
 
 
-@bottle.get('/<param>/uredi_kategorija/<kategorija>')
+@get('/<param>/uredi_kategorija/<kategorija>')
 def uredi_kategorija(param, kategorija):
     """
     Recepti izbrane kategorije, urejeni po določenem stolpcu
@@ -239,7 +239,7 @@ def uredi_kategorija(param, kategorija):
                                                                     recepti=recepti_izbrane_kategorije)
 
 
-@bottle.get('/recepti-kulinarike/<kulinarika>')
+@get('/recepti-kulinarike/<kulinarika>')
 def doloceni_recepti_kul(kulinarika):
     """
     Vsi recepti izbrane kulinarike.
@@ -253,7 +253,7 @@ def doloceni_recepti_kul(kulinarika):
                                                                     oznake=oznake,
                                                                     recepti=recepti_izbrane_kulinarike)
 
-@bottle.get('/<param>/recepti-kulinarike/<kulinarika>')
+@get('/<param>/recepti-kulinarike/<kulinarika>')
 def uredi_kulinarika(param, kulinarika):
     """
     Recepti izbrane kulinarike, urejeni po določenem stolpcu
@@ -268,7 +268,7 @@ def uredi_kulinarika(param, kulinarika):
                                                                     oznake=oznake,
                                                                     recepti=recepti_izbrane_kulinarike)
 
-@bottle.get('/recepti-oznake/<oznaka>')
+@get('/recepti-oznake/<oznaka>')
 def doloceni_recepti_oz(oznaka):
     """
     Vsi recepti izbrane oznake.
@@ -282,7 +282,7 @@ def doloceni_recepti_oz(oznaka):
                                                                 oznake=oznake,
                                                                 recepti=recepti_izbrane_oznake)
 
-@bottle.get('/<param>/recepti-oznake/<oznaka>')
+@get('/<param>/recepti-oznake/<oznaka>')
 def uredi_oznaka(param, oznaka):
     """
     Recepti izbrane oznake, urejeni po določenem stolpcu
@@ -300,12 +300,12 @@ def uredi_oznaka(param, oznaka):
 
 ############################################ STRAN RECEPTA ############################################  
 
-@bottle.post('/<id>/')
+@post('/<id>/')
 def pojdi_na_recept(id):
     return redirect(url('recept', id=id))
 
 
-@bottle.get('/recept/<id>')
+@get('/recept/<id>')
 def recept(id):
     """
     Določen recept z vsemi potrebnimi podatki in komentarji.
@@ -336,7 +336,7 @@ def recept(id):
 
 ########################################### BRISANJE RECEPTA ########################################### 
 
-@bottle.post('/izbrisi-recept')
+@post('/izbrisi-recept')
 @cookie_required
 def izbrisi_recept():
     """ Gumb na strani, kjer je več receptov """
@@ -346,7 +346,7 @@ def izbrisi_recept():
     return redirect(url('vsi_recepti_prijava'))
 
 
-@bottle.post('/izbrisi-recept/<id>')
+@post('/izbrisi-recept/<id>')
 @cookie_required
 def izbrisi_recept_id(id):
     """ Gumb na strani izbranega recepta """
@@ -357,7 +357,7 @@ def izbrisi_recept_id(id):
 
 ########################################### UREJANJE RECEPTA ########################################### 
 
-@bottle.get('/urejanje-recepta/<id>')
+@get('/urejanje-recepta/<id>')
 @cookie_required
 def urejanje_recepta(id):
     """
@@ -416,7 +416,7 @@ def urejanje_recepta(id):
 
 #Funkcije za dodajanje, brisanje in urejanje sestavin, postopka, oznak, kategorij in kulinarik.
 
-@bottle.post('/dodaj-sestavino/<id>')
+@post('/dodaj-sestavino/<id>')
 def dodaj_sestavino(id):
     sestavina = str(bottle.request.forms.getunicode('dodana-sestavina'))
     sestavine = [x.ime for x in r.dobi_razlicne_gen_po_abecedi(model.Sestavine, 'ime')]
@@ -440,7 +440,7 @@ def dodaj_sestavino(id):
         return redirect(url('dodaj_novo_sestavino_get', id=id))
 
 
-@bottle.post('/izbrisi-sestavino/<id>')
+@post('/izbrisi-sestavino/<id>')
 def brisi_sestavino(id):
     ime = bottle.request.forms.getunicode('sestavina')
     s = r.najdi_sestavino(id,ime)
@@ -450,7 +450,7 @@ def brisi_sestavino(id):
     return redirect(url('urejanje_recepta', id=id))
 
 
-@bottle.post('/dodaj-postopek/<id>')
+@post('/dodaj-postopek/<id>')
 def dodaj_postopek_post(id):
     postopek =  str(bottle.request.forms.getunicode('dodan-postopek'))
     vsi_koraki = r.dobi_vse_gen_id(model.Postopki, id, "id_recepta")
@@ -464,14 +464,14 @@ def dodaj_postopek_post(id):
     return redirect(url('urejanje_recepta', id=id))
 
 
-@bottle.post('/izbrisi-postopek/<id>')
+@post('/izbrisi-postopek/<id>')
 def brisi_postopek(id):
     korak = bottle.request.forms.getunicode('korak')
     r.izbrisi_gen(model.Postopki, korak, "postopek")
     return redirect(url('urejanje_recepta', id=id))
 
 
-@bottle.post('/uredi-postopek/<id>')
+@post('/uredi-postopek/<id>')
 def uredi_postopek(id):
     opis = str(bottle.request.forms.getunicode('spremenjen-postopek'))
     st_koraka = bottle.request.forms.getunicode('nov_korak')
@@ -484,7 +484,7 @@ def uredi_postopek(id):
     return redirect(url('urejanje_recepta', id=id))
 
 
-@bottle.post('/dodaj-kategorijo/<id>')
+@post('/dodaj-kategorijo/<id>')
 def dodaj_kategorijo(id):
     kategorije = bottle.request.forms.getall('kategorija')
     for k in kategorije:
@@ -494,14 +494,14 @@ def dodaj_kategorijo(id):
         ))
     return redirect(url('urejanje_recepta', id=id))
 
-@bottle.post('/izbrisi-kategorijo/<id>')
+@post('/izbrisi-kategorijo/<id>')
 def izbrisi_kategorijo(id):
     kategorija = bottle.request.forms.getunicode('kategorija')
     r.izbrisi_dva_pogoja(model.Kategorije, kategorija, "kategorija", id, "id_recepta")
     return redirect(url('urejanje_recepta', id=id))
 
 
-@bottle.post('/dodaj-kulinariko/<id>')
+@post('/dodaj-kulinariko/<id>')
 def dodaj_kulinariko(id):
     kulinarike = bottle.request.forms.getall('kulinarika')
     for k in kulinarike:
@@ -512,14 +512,14 @@ def dodaj_kulinariko(id):
     return redirect(url('urejanje_recepta', id=id))
 
 
-@bottle.post('/izbrisi-kulinariko/<id>')
+@post('/izbrisi-kulinariko/<id>')
 def izbrisi_kulinariko(id):
     kulinarika = bottle.request.forms.getunicode('kulinarika')
     r.izbrisi_dva_pogoja(model.Kulinarike, kulinarika, "kulinarika", id, "id_recepta")
     return redirect(url('urejanje_recepta', id=id))
 
 
-@bottle.post('/dodaj-oznako/<id>')
+@post('/dodaj-oznako/<id>')
 def dodaj_oznako(id):
     oznake = bottle.request.forms.getall('oznaka')
     for o in oznake:
@@ -530,7 +530,7 @@ def dodaj_oznako(id):
     return redirect(url('urejanje_recepta', id=id))
 
 
-@bottle.post('/izbrisi-oznako/<id>')
+@post('/izbrisi-oznako/<id>')
 def izbrisi_oznako(id):
     oznaka = bottle.request.forms.getunicode('oznaka')
     r.izbrisi_dva_pogoja(model.Oznake, oznaka, "oznaka", id, "id_recepta")
@@ -539,7 +539,7 @@ def izbrisi_oznako(id):
 
 ########################################### DODAJANJE RECEPTA ########################################### 
 
-@bottle.get('/dodaj-recept')
+@get('/dodaj-recept')
 @cookie_required
 def dodaj_recept_get():
     return template_user('views/dodaj_recept.tpl', recept = model.Recepti(),
@@ -548,7 +548,7 @@ def dodaj_recept_get():
                                                          oznake=oznake)
     
 
-@bottle.post('/dodaj-recept')
+@post('/dodaj-recept')
 def dodaj_recept_post():
     """
     Dodajanje novega recepta. Za začetek potrebuje štiri osnovne informacije kot so ime, štrvilo porcij, čas priprave in 
@@ -577,14 +577,14 @@ def dodaj_recept_post():
 
 ########################################### DODAJANJE SESTAVIN ########################################### 
 
-@bottle.get('/dodaj-novo-sestavino/<id>')
+@get('/dodaj-novo-sestavino/<id>')
 @cookie_required
 def dodaj_novo_sestavino_get(id):
     recept = r.dobi_gen_id(model.Recepti, id,'id')
     return template('views/dodaj_novo_sestavino.tpl', id=recept.id,
                           oznake=oznake,kategorije=kategorije,kulinarike=kulinarike)
 
-@bottle.post('/dodaj-novo-sestavino/<id>')
+@post('/dodaj-novo-sestavino/<id>')
 def dodaj_novo_sestavino_post(id):
     """
     Ker se ob dodajanju sestavin pri receptu preračunajo njegove nutrientske vrednosti, mora stran vsako sestavino poznati
@@ -609,7 +609,7 @@ def dodaj_novo_sestavino_post(id):
 
 ############################################## KOMENTIRANJE ############################################## 
 
-@bottle.post('/dodaj-komentar/<id>')
+@post('/dodaj-komentar/<id>')
 @cookie_required
 def dodaj_komentar(id):
     id_uporabnika = int(bottle.request.get_cookie('id'))
